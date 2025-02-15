@@ -1,0 +1,16 @@
+{
+  "name": "wildfire-sentinel",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": ["client", "api"],
+  "scripts": {
+    "install:all": "npm install",
+    "build": "npm run build --workspace=client",
+    "start:client": "npm run start --workspace=client",
+    "start:api": "npm run start --workspace=api",
+    "deploy": "npm run install:all && vercel --prod"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}

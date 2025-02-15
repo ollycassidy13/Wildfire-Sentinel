@@ -1,0 +1,10 @@
+*/build
+*/node_modules
+node_modules
+all.txt
+*package-lock.json
+
+.vercel
+
+vercel.json
+.vercelignore
