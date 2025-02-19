@@ -1,18 +1,16 @@
 {
-    "name": "wildfire-sentinel-api",
-    "version": "1.0.0",
-    "private": true,
-    "dependencies": {
-      "cors": "^2.8.5",
-      "express": "^4.18.2",
-      "node-fetch": "^2.7.0"
-    },
-    "scripts": {
-      "install": "npm install",
-      "start": "node server.js"
-    },
-    "engines": {
-      "node": ">=16"
-    }
+  "name": "wildfire-sentinel-api",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "node-fetch": "^2.7.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=16"
   }
-  
+}
