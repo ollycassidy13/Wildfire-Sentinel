@@ -50,7 +50,7 @@ Before you begin, ensure you have met the following requirements:
 
 ## Running the Application
 
-### Production Mode (Locally)
+### Production Mode 
 
 To run the application in **production mode** locally:
 
@@ -67,6 +67,34 @@ To run the application in **production mode** locally:
    ```
 
    This serves the React app from the Express server at `http://localhost:3001`.
+
+### Hosting
+
+This site is hosted on Render, using the same 3 commands shown above. After `npm run start:api` is run, the React app is served from port `10000`.
+
+I'm using the free tier of render, which spins down with inactivity delaying the initial requests by 50 seconds or more after a long period of inactivity. Please be patient when trying to view the hosted version.
+
+## How It Works
+
+### Frontend (React)
+
+- **Entry Point:** The application starts in `index.js`, which renders the main `App` component inside a `<React.StrictMode>` wrapper.
+- **App Component:**  
+  - **Data Fetching:** Upon mounting, the `App` component uses the `useEffect` hook to fetch wildfire events from the Express API using a specified date range.
+  - **Loading State:** While data is being fetched, a `Loader` component displays a spinner.
+  - **Map Rendering:** Once data is fetched, the `OSMMap` component renders an interactive map (via `react-leaflet`) with wildfire markers.
+  - **Date Picker:** A draggable date picker (powered by `react-draggable`) allows users to adjust the date range. Changing the dates refetches data.
+
+### Backend (Express)
+
+- **Express Server Setup:**  
+  The server is built using Express. It listens on port `3001` (or the port specified in `process.env.PORT`).
+
+- **API Endpoint:**  
+  - **Route:** `/api/events`  
+  - **Query Parameters:** Accepts `start` and `end` date parameters to query events.
+  - **Functionality:**  
+    The server fetches wildfire event data from NASA’s EONET API filtered by the provided date range. If the fetch is successful, it returns the events; otherwise, it handles errors gracefully.
 
 ## Folder Structure
 
