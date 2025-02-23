@@ -12,17 +12,28 @@ const getFormattedDate = (daysAgo = 0) => {
 
 function App() {
   const [eventData, setEventData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [startDate, setStartDate] = useState(getFormattedDate(7));
   const [endDate, setEndDate] = useState(getFormattedDate(0)); 
+  const [loading, setLoading] = useState(true);
+  const [dataReady, setDataReady] = useState(false);
+  const [serverAwake, setServerAwake] = useState(false);
 
   useEffect(() => {
     const fetchEvents = async () => {
       setLoading(true);
+      setDataReady(false);
+      
+      const startTime = Date.now();
+      
       try {
-        // const res = await fetch(`http://localhost:3001/api/events?start=${startDate}&end=${endDate}`);
         const res = await fetch(`/api/events?start=${startDate}&end=${endDate}`);
         const data = await res.json();
+        
+        const responseTime = Date.now() - startTime;
+        const isAwake = responseTime < 22000;
+        
+        setServerAwake(isAwake);
+        console.log('Response time:', responseTime, 'Server awake:', isAwake);
 
         if (!data.events) {
           console.warn('No events found:', data);
@@ -30,11 +41,12 @@ function App() {
         } else {
           setEventData(data.events);
         }
+        setDataReady(true);
       } catch (error) {
         console.error('Error fetching events:', error);
         setEventData([]);
+        setDataReady(true);
       }
-      setLoading(false);
     };
 
     fetchEvents();
@@ -75,7 +87,15 @@ function App() {
       </Draggable>
 
       <div style={{ flexGrow: 1, position: 'relative', zIndex: 1 }}>
-        {loading ? <Loader /> : <OSMMap eventData={eventData} />}
+        {loading ? (
+          <Loader 
+            isDataReady={dataReady}
+            serverAwake={serverAwake}
+            onLoadComplete={() => setLoading(false)} 
+          />
+        ) : (
+          <OSMMap eventData={eventData} />
+        )}
       </div>
     </div>
   );

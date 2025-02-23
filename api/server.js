@@ -16,6 +16,7 @@ app.get('/api/events', async (req, res) => {
     const response = await fetch(
       `https://eonet.gsfc.nasa.gov/api/v3/events?start=${start}&end=${end}&category=wildfires`
     );
+    // await new Promise(resolve => setTimeout(resolve, 20000));
     if (!response.ok) {
       throw new Error('Failed to fetch events');
     }
